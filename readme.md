@@ -4,7 +4,7 @@ Demeo Modloader API
 First off, some notes about what the Demeo Modloader API is:
 
 * It is **NOT a full "modding API"** - it's merely a small technical tool for mod programmers to make it easier to load DLLs into the game.
-* It is a prototype, severely lacking in features right now, and is being released to try new things out and see if they're on the right track.
+* It is a prototype, severely lacking in features right now, and is being released to try new things out and see if we're on the right track.
 * It does **NOT** function on the version of the game that runs natively on the Quest headset. If you own a Quest headset
   and would like to run mods, use the Oculus Link version of the game that runs on your PC (this is for performance
   reasons, unfortunately) - you own this version of the game for free when you bought the game on Quest, same as the PC version.
@@ -66,6 +66,19 @@ Currently, the DemeoMod type is pretty bare. It has a few things in it:
   loaded. The gameContext variable is not initialized. This is intended for e.g. mods that disable the intro cutscene or
   whatever.
 * The ModInformation abstract property - this is called to pull out information about the mod to display in the mod UI ingame.
+
+### Actually doing stuff
+
+This modloader API is currently designed as an extremely plain "entry point" to get your code running, and you're
+expected to hijack whatever you need to in the game to get your mod functionality working. We're planning on adding
+callbacks for various things - for example, when damage is dealt - but we wanted to get a first version out before
+blindly driving ahead.
+
+However, all the hooks should be there for you to have callbacks whenever you need. For example:
+
+* If you want to run code every frame, create a new GameObject and attach a MonoBehaviour with an Update method.
+* Similarly, you can write an OnGUI method in your component if you want to do GUI stuff, etc.
+* If you want to know when a new scene is loaded, subscribe to Unity's `SceneManager.sceneLoaded`.
 
 ### The ModInformation type
 
