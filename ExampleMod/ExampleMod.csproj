@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <LangVersion>10</LangVersion>
+    <!-- You should set the environment variable DemeoDir to where you have Demeo installed.
+	If the DemeoDir environment variable is not set, this will default to the default Steam location of Demeo PC Edition -->
+    <DemeoDir Condition=" '$(DemeoDir)' == '' ">C:\Program Files (x86)\Steam\steamapps\common\Demeo - PC Edition</DemeoDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Important: Never redistribute Assembly-CSharp.dll. Always reference one in a local install of Demeo. -->
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(DemeoDir)\demeo_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <!-- You may need to reference additional libraries in Demeo, such as Unity's DLLs, if you're doing more advanced stuff. -->
+    <!--
+    <Reference Include="UnityEngine">
+      <HintPath>$(DemeoDir)\demeo_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(DemeoDir)\demeo_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    -->
+  </ItemGroup>
+
+  <Target Name="CopyOutputFileToDemeoDir" AfterTargets="Build">
+    <Copy SourceFiles="$(OutputPath)\$(AssemblyName).dll" DestinationFolder="$(DemeoDir)\DemeoMods\ExampleMod" />
+  </Target>
+
+</Project>
